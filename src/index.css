@@ -1,40 +1,11 @@
 @import "tailwindcss";
- :root {
-  --text: #6b6375;
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-  letter-spacing: 0.18px;
-  color-scheme: light gray;
-  color: var(--text);
- 
-}
-
-
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  /* max-width: 6xl; */
-  margin: 0 auto;
-  min-height: 100svh;
- 
-} 
-
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #83aaee;
+      --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+    --text: gray;
     --text-h: #336ee6;
-    --bg: #16171d;
+    --bg: #c0c1c9;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;
@@ -49,6 +20,38 @@ code,
     filter: invert(1) brightness(2);
   }
 }
+
+body{
+  
+  margin: 0;
+  font-family: var(--sans);
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+
+
+#root {
+  /* width: 1126px; */
+  max-width: 100%;
+  /* max-width: 6xl; */
+  margin: 0 auto;
+  min-height: 100svh;
+ 
+} 
+
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+ 
+
+}
+
+
 h1 {
   letter-spacing: -1.68px;
   @media (max-width: 1024px) {
