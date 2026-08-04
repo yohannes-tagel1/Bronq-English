@@ -1,167 +1,104 @@
-// import React from "react";
-// import { headerData } from "../data/headerdata";
 
-// function HeaderPage() {
-//   return (
-//     <div className="flex items-center bg-gray-100 p-7">
-//       <div className="flex items-center justify-between w-full max-w-6xl mx-auto max-h-4">
-
-//         <div className="p-3">
-//           {headerData.map(({ title, heroImage, heroImageAlt }) => (
-//             <div key={title} className="flex items-center">
-//               <img src={heroImage} alt={heroImageAlt} width={70} height={2} />
-//               <div>
-//                 <h1 className="text-xl font-bold">{title}</h1>
-//                 <p className="text-sm">groth your self</p>
-//               </div>
-
-//             </div>
-
-//           ))}
-
-//         </div>
-
-//         <nav className="flex items-center space-x-4">
-//           <ul className="flex space-x-6">
-//             <li>Home</li>
-//             <li>About</li>
-//             <li>Blog</li>
-//             <li>Contact</li>
-//           </ul>
-
-//           <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl ml-5">
-//             +251900000
-//           </button>
-//         </nav>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default HeaderPage;
-
-// import React from "react";
-// import { headerData } from "../data/headerdata";
-
-// function HeaderPage() {
-//   return (
-//     <div className="bg-gray-100 p-7">
-//       <div className="flex items-center justify-between w-full max-w-6xl mx-auto max-h-5">
-
-//         <div className="flex items-center gap-4">
-//           {headerData.map(({ title, heroImage, heroImageAlt }) => (
-//             <div key={title} className="flex items-center gap-3">
-//               <img
-//                 src={heroImage}
-//                 alt={heroImageAlt}
-//                 className="w-12 h-12 object-contain"
-//               />
-//               <div>
-//                  <h1 className="text-xl font-bold">{title}</h1>
-//                 <p className="text-sm">Grow yourself</p>
-//               </div>
-
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Navigation */}
-//         <nav className="flex items-center gap-6">
-//           <ul className="flex gap-6">
-//             <li className="cursor-pointer hover:text-blue-500">Home</li>
-//             <li className="cursor-pointer hover:text-blue-500">About</li>
-//             <li className="cursor-pointer hover:text-blue-500">Blog</li>
-//             <li className="cursor-pointer hover:text-blue-500">Contact</li>
-//           </ul>
-
-//           <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl">
-//             +251900000
-//           </button>
-//         </nav>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default HeaderPage;
-
-import React, { useState } from "react";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { headerData } from "../data/headerdata";
 
 function HeaderPage() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Blog", path: "/blog" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
-    <header className="bg-gray-100 shadow">
-      <div className="max-w-6xl mx-auto flex items-center justify-between p-5">
-        {/* Logo */}
-        <div className="flex items-center gap-4">
-          {headerData.map(({ title, heroImage, heroImageAlt }) => (
-            <div key={title} className="flex items-center gap-3">
-              <img
-                src={heroImage}
-                alt={heroImageAlt}
-                className="w-12 h-12 object-contain"
-              />
+    <header className="sticky top-0 z-50 bg-gray-200 shadow-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+        <div className="flex items-center">
+           {headerData.map(({ title, heroImage, heroImageAlt }) => (
+             <div key={title} className="flex items-center">
+               <img
+                 src={heroImage}
+                 alt={heroImageAlt}
+                 className="w-15 h-15 object-contain"
+               />
 
-              <div>
-                <h1 className="text-xl font-bold">{title}</h1>
-                <p className="text-sm text-gray-500">Grow yourself</p>
-              </div>
-            </div>
+               <div>
+                <h1 className="font-bold mb-0 leading-none">{title}</h1>
+                 <p className="text-sm text-gray-500 mb-0 leading-none">Grow yourself</p>
+               </div>
+             </div>
           ))}
-        </div>
+         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          <ul className="flex gap-6 font-medium">
-            <li className="cursor-pointer hover:text-blue-500">Home</li>
-            <li className="cursor-pointer hover:text-blue-500">About</li>
-            <li className="cursor-pointer hover:text-blue-500">Blog</li>
-            <li className="cursor-pointer hover:text-blue-500">Contact</li>
-          </ul>
+        <nav className="hidden items-center gap-6 md:flex">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                isActive
+                  ? "font-bold text-[#39FF14] text-xl"
+                  : "text-gray-500 transition hover:text-#39FF14"
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
 
           <button className="bg-gradient-to-br from-[#39FF14] via-[#18C7A0] to-[#1565C0] hover:bg-blue-600 text-white px-5 py-2 rounded-full">
             +251900000
           </button>
         </nav>
 
-        {/* Mobile Hamburger */}
-        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        {/* Mobile Menu Button */}
+        <button
+          type="button"
+          className="rounded-md  p-2 text-blue-600 transition hover:bg-gray-300 md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={isMenuOpen}
+        >
+          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <nav className="md:hidden bg-white shadow-lg p-5 ">
-          <ul className="flex flex-col font-semibold  justify-ceter  ">
-            <li className="py-4 px-4 hover:bg-gray-100 cursor-pointer rounded-2xl">
-              Home
-            </li>
-            <li className="py-4 px-4 rounded-2xl hover:bg-gray-100  cursor-pointer">
-              About
-            </li>
-            <li className="py-4 px-4 rounded-2xl  hover:bg-gray-100 cursor-pointer">
-              Blog
-            </li>
-            <li className="py-4 px-4 rounded-2xl hover:bg-gray-100 cursor-pointer">
-              Contact
-            </li>
-          </ul>
-
-          <div className="p-4">
-            <button className="w-full bg-gradient-to-br from-[#39FF14] via-[#18C7A0] to-[#1565C0] hover:bg-blue-600 text-white py-3 rounded-full cursor-pointer">
-              +251900000
-            </button>
-          </div>
+      {/* Mobile Navigation */}
+      <div
+        className={`overflow-hidden transition-all duration-300 md:hidden ${
+          isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <nav className="flex flex-col gap-2 border-3 rounded-3xl border-gray-300 px-4 py-4">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `rounded-md px-4 py-3 transition ${
+                  isActive
+                    ? "bg-pink-100 font-bold text-[#39FF14]"
+                    : "text-gray-600 hover:bg-gray-300"
+                }`
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
         </nav>
-      )}
+      </div>
     </header>
   );
 }
 
 export default HeaderPage;
+
