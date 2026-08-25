@@ -1,128 +1,138 @@
-
-
-
 import React from "react";
-import { footerfirst, contact, conect } from "../data/headerdata";
+import SolarSystemSection from "../data/SolarSystemSection";
+import { Link } from "react-router-dom";
+import { useLanguage } from "../utils/LanguageProvider";
 
 function FooterPage() {
+  const { dict } = useLanguage();
+  const footerfirst = dict?.footerfirst ? [dict.footerfirst] : null;
+  const contact = dict?.contact?.contactDetails || null;
+  const conect = dict?.contact?.socialLinks || null;
+
+  const footerLinks = [
+    {
+      title: "Quick Links",
+      links: [
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+        { name: "Course", path: "/blog" },
+        { name: "Contact", path: "/contactt" },
+      ],
+    },
+    // {
+    //   title: "Courses",
+    //   links: [
+    //     { name: "Beginner", path: "/beginner" },
+    //     { name: "Intermediate", path: "/intermediate" },
+    //     { name: "Advanced", path: "/advanced" },
+    //     { name: "IELTS", path: "/ielts" },
+    //   ],
+    // },
+    // {
+    //   title: "Company",
+    //   links: [
+    //     { name: "About Us", path: "/about" },
+    //     { name: "Our Teachers", path: "/teachers" },
+    //     { name: "Testimonials", path: "/testimonials" },
+    //     { name: "FAQ", path: "/faq" },
+    //   ],
+    // },
+  ];
+
   return (
-    <footer className="bg-black w-full mt-16 py-16 px-6">
-   <div className="max-w-7xl mx-auto grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="bg-black w-full mt-6 py-16 px-6 ">
+      <div className="max-w-6xl h-auto mx-auto grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {/* Company */}
         <div>
-          {footerfirst.map(({ title, herotitle, description }) => (
+          {(footerfirst || []).map(({ title, herotitle, description }) => (
             <div key={title} className="space-y-4">
-              <h1 className="text-3xl font-bold text-white">
-                {title}
-              </h1>
+              <h1 className="text-3xl font-bold text-white">{title}</h1>
 
-              <h2 className="text-lg font-semibold text-white">
-                {herotitle}
-              </h2>
+              <h2 className="text-lg font-semibold text-white">{herotitle}</h2>
 
-              <p className="text-gray-300 leading-7">
-                {description}
-              </p>
+              <p className="text-gray-300 leading-7">{description}</p>
             </div>
           ))}
         </div>
 
         {/* Quick Links */}
-        <div>
-          <h1 className="text-2xl font-bold text-white">
-            Quick Links
-          </h1>
+        {/* <div>
+            <h1 className="text-2xl font-bold text-white">Quick Links</h1>
 
-          <ul className="mt-5 space-y-4">
-            <li className="text-gray-300 hover:text-white cursor-pointer transition">
-              Home
-            </li>
+            <ul className="mt-5 space-y-4">
+              <li className="text-gray-300 hover:text-white cursor-pointer transition">
+                Home
+              </li>
 
-            <li className="text-gray-300 hover:text-white cursor-pointer transition">
-              About
-            </li>
+              <li className="text-gray-300 hover:text-white cursor-pointer transition">
+                About
+              </li>
 
-            <li className="text-gray-300 hover:text-white cursor-pointer transition">
-              Blog
-            </li>
+              <li className="text-gray-300 hover:text-white cursor-pointer transition">
+                Blog
+              </li>
 
-            <li className="text-gray-300 hover:text-white cursor-pointer transition">
-              Contact
-            </li>
-          </ul>
+              <li className="text-gray-300 hover:text-white cursor-pointer transition">
+                Contact
+              </li>
+            </ul>
+          </div> */}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {footerLinks.map((section) => (
+            <div key={section.title}>
+              <h1 className="text-2xl font-bold text-white">{section.title}</h1>
+
+              <ul className="mt-5 space-y-4">
+                {section.links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.path}
+                      className="text-gray-300 hover:text-white transition duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         {/* Contact */}
         <div>
-          {contact.map(({ title, location, phone, email }) => (
-            <div key={title} className="space-y-4">
+          {(contact || []).map((item, idx) => (
+            <div key={item.label || idx} className="space-y-4">
               <h1 className="text-2xl font-bold text-white">
-                {title}
+                {item.label || "Contact"}
               </h1>
 
-              <p className="text-gray-300">
-                {location}
-              </p>
-
-              <p className="text-gray-300">
-                {phone}
-              </p>
-
-              <p className="text-gray-300 break-all">
-                {email}
-              </p>
+              <p className="text-gray-300">{item.value}</p>
             </div>
           ))}
         </div>
 
         {/* Social */}
         <div>
-          {conect.map(
-            ({ title, facebook, twitter, instagram, linkedin }) => (
-              <div key={title} className="space-y-5">
-                <h1 className="text-2xl font-bold text-white">
-                  {title}
-                </h1>
-
-                <div className="flex flex-col gap-3">
+          {(conect || []).length > 0 && (
+            <div className="space-y-5">
+              <h1 className="text-2xl font-bold text-white">
+                {"Connect with Us"}
+              </h1>
+              <div className="flex flex-col gap-3">
+                {(conect || []).map((link) => (
                   <a
-                    href={facebook}
+                    key={link.label}
+                    href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-300 hover:text-white transition"
                   >
-                    Facebook
+                    {link.label}
                   </a>
-
-                  <a
-                    href={twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-white transition"
-                  >
-                    Twitter
-                  </a>
-
-                  <a
-                    href={instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-white transition"
-                  >
-                    Instagram
-                  </a>
-
-                  <a
-                    href={linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-white transition"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
+                ))}
               </div>
-            )
+            </div>
           )}
         </div>
       </div>
@@ -133,13 +143,11 @@ function FooterPage() {
           © {new Date().getFullYear()} Bronq English. All Rights Reserved.
         </p>
       </div>
-   
     </footer>
   );
 }
 
 export default FooterPage;
-
 
 // import React from "react";
 // import { footerfirst, contact, conect } from "../data/headerdata";
@@ -222,3 +230,15 @@ export default FooterPage;
 // }
 
 // export default FooterPage;
+
+// import React from 'react'
+
+// function FooterPage() {
+//   return (
+//     <div>
+//       <h1>footer </h1>
+//     </div>
+//   )
+// };
+
+// export default FooterPage
